@@ -1,7 +1,5 @@
 'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
 // BANKIST APP
 
 // Data
@@ -61,9 +59,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function(mov, i) {
+
+  const movs = sort ? movements.slice().sort((a,b) => a - b): movements;
+
+  movs.forEach(function(mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -200,87 +201,9 @@ btnClose.addEventListener('click', function(e) {
     inputCloseUsername.value = inputClosePin.value = '';
 });
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
-
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-// const eurToUsd = 1.1;
-
-// // const movementsUSD = movements.map(function (mov) {
-// //   return mov * eurToUsd;
-// // });
-
-// const movementsUSD = movements.map(mov => mov * eurToUsd);
-
-// console.log(movements);
-// console.log(movementsUSD);
-
-// const movementsUSDfor = [];
-// for(const mov of movements) movementsUSDfor.push(mov * eurToUsd);
-// console.log(movementsUSDfor);
-
-
-// const movementsDescriptions = movements.map((mov, i, arr) => 
-//   `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
-// )
-
-// console.log(movementsDescriptions);
-
-// const deposits = movements.filter(function (mov) {
-//   return mov > 0;
-// });
-
-// console.log(movements);
-// console.log(deposits);
-
-// const depositsFor = []; 
-// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
-// console.log(depositsFor);
-
-// const withdrawals = movements.filter(mov => mov < 0);
-// console.log(withdrawals);
-
-
-// // const balance = movements.reduce(function(acc, cur, i, arr) {
-// //   console.log(`Iteration ${i}: ${acc}`)
-// //   return acc + cur;
-// // }, 0);
-
-// const balance = movements.reduce((acc, cur, i, arr) =>  acc + cur, 0);
-
-// console.log(balance);
-
-// const max = movements.reduce((acc, mov) => {
-//   if(acc > mov) return acc;
-//   else return mov;
-// }, movements[0]);
-
-// console.log(max);
-
-// const totalDepositUSD = movements
-//   .filter(mov => mov > 0)
-//   .map((mov, i, arr) => {
-//     //console.log(arr);
-//     return mov * eurToUsd;
-//   })
-//   // .map(mov => mov * eurToUsd)
-//   .reduce((acc, mov) => acc + mov, 0);
-// console.log(totalDepositUSD);
-
-// const firstWithdrawal = movements.find(mov => mov < 0);
-// console.log(movements);
-// console.log(firstWithdrawal);
-
-// console.log(accounts);
-
-// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
-// console.log(account);
-
-/////////////////////////////////////////////////
+let sorted = false;
+btnSort.addEventListener('click', function(e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
